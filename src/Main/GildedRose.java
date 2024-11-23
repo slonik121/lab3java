@@ -1,6 +1,9 @@
 package Main;
 
 import Main.Item;
+import Main.Name;
+import Main.Quality;
+import Main.SellIn;
 
 public class GildedRose {
     private Item[] items;
@@ -34,54 +37,48 @@ public class GildedRose {
     }
 
     private boolean isLegendary(Item item) {
-        return item.name.equals("Sulfuras, Hand of Ragnaros");
+        return item.getName().getName().equals("Sulfuras, Hand of Ragnaros");
     }
 
     private boolean isSpecial(Item item) {
-        return item.name.equals("Aged Brie") || item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+        String name = item.getName().getName();
+        return name.equals("Aged Brie") || name.equals("Backstage passes to a TAFKAL80ETC concert");
     }
 
     private void updateSellIn(Item item) {
-        item.sellIn--;
+        item.getSellIn().decrease();
     }
 
     private void updateSpecialItemQuality(Item item) {
-        if (item.name.equals("Aged Brie")) {
-            increaseQuality(item, 1);
+        String name = item.getName().getName();
+
+        if (name.equals("Aged Brie")) {
+            item.getQuality().increase(1);
             return;
         }
 
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            if (item.sellIn < 0) {
-                item.quality = 0;
+        if (name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+            if (item.getSellIn().getValue() < 0) {
+                item.setQuality(new Quality(0));
                 return;
             }
 
-
-            if (item.sellIn < 5) {
-                increaseQuality(item, 3);
+            if (item.getSellIn().getValue() < 5) {
+                item.getQuality().increase(3);
                 return;
             }
 
-            if (item.sellIn < 10) {
-                increaseQuality(item, 2);
+            if (item.getSellIn().getValue() < 10) {
+                item.getQuality().increase(2);
                 return;
             }
 
-            increaseQuality(item, 1);
+            item.getQuality().increase(1);
         }
     }
 
-
     private void updateRegularItemQuality(Item item) {
-        decreaseQuality(item, item.sellIn < 0 ? 2 : 1);
-    }
-
-    private void increaseQuality(Item item, int amount) {
-        item.quality = Math.min(item.quality + amount, 50);
-    }
-
-    private void decreaseQuality(Item item, int amount) {
-        item.quality = Math.max(item.quality - amount, 0);
+        int qualityDecreaseAmount = item.getSellIn().getValue() < 0 ? 2 : 1;
+        item.getQuality().decrease(qualityDecreaseAmount);
     }
 }
