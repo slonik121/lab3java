@@ -14,3 +14,4 @@ class GildedRoseTest {
         app.updateQuality();
     }
 }
+
