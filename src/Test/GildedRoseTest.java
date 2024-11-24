@@ -9,10 +9,13 @@ class GildedRoseTest {
 
     @Test
     void testUpdateQuality() {
-        Item[] items = new Item[]{new Item("foo", 0, 0)};
-        GildedRose app = new GildedRose(items);
+        Item item = new Item("foo", 0, 0);
+        GildedRose app = new GildedRose(new Item[]{item});
+
         app.updateQuality();
-        assertEquals(0, items[0].getQuality().getValue());
+        int updatedQuality = item.getQuality().getValue();
+
+        assertEquals(0, updatedQuality);
     }
 }
 

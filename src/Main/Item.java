@@ -24,16 +24,44 @@ public class Item {
         return sellIn;
     }
 
-    public void setSellIn(SellIn sellIn) {
-        this.sellIn = sellIn;
-    }
-
     public Quality getQuality() {
         return quality;
     }
 
-    public void setQuality(Quality quality) {
-        this.quality = quality;
+    public boolean isLegendary() {
+        return name.getName().equals("Sulfuras, Hand of Ragnaros");
+    }
+
+    public boolean isSpecial() {
+        return isAgedBrie() || isBackstagePass();
+    }
+
+    public boolean isAgedBrie() {
+        return name.getName().equals("Aged Brie");
+    }
+
+    public boolean isBackstagePass() {
+        return name.getName().equals("Backstage passes to a TAFKAL80ETC concert");
+    }
+
+    public boolean isExpired() {
+        return sellIn.getValue() < 0;
+    }
+
+    public void decreaseSellIn() {
+        sellIn.decrease();
+    }
+
+    public void increaseQuality(int amount) {
+        quality.increase(amount);
+    }
+
+    public void decreaseQuality(int amount) {
+        quality.decrease(amount);
+    }
+
+    public void resetQuality() {
+        this.quality = new Quality(0);
     }
 
     @Override

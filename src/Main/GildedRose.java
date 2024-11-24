@@ -28,57 +28,59 @@ public class GildedRose {
         }
 
         updateSellIn(item);
+
         if (isSpecial(item)) {
-            updateSpecialItemQuality(item);
+            updateSpecialItem(item);
             return;
         }
 
-        updateRegularItemQuality(item);
+        updateRegularItem(item);
     }
 
     private boolean isLegendary(Item item) {
-        return item.getName().getName().equals("Sulfuras, Hand of Ragnaros");
+        return item.isLegendary();
     }
 
     private boolean isSpecial(Item item) {
-        String name = item.getName().getName();
-        return name.equals("Aged Brie") || name.equals("Backstage passes to a TAFKAL80ETC concert");
+        return item.isSpecial();
     }
 
     private void updateSellIn(Item item) {
-        item.getSellIn().decrease();
+        item.decreaseSellIn();
     }
 
-    private void updateSpecialItemQuality(Item item) {
-        String name = item.getName().getName();
-
-        if (name.equals("Aged Brie")) {
-            item.getQuality().increase(1);
+    private void updateSpecialItem(Item item) {
+        if (item.isAgedBrie()) {
+            item.increaseQuality(1);
             return;
         }
 
-        if (name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            if (item.getSellIn().getValue() < 0) {
-                item.setQuality(new Quality(0));
-                return;
-            }
-
-            if (item.getSellIn().getValue() < 5) {
-                item.getQuality().increase(3);
-                return;
-            }
-
-            if (item.getSellIn().getValue() < 10) {
-                item.getQuality().increase(2);
-                return;
-            }
-
-            item.getQuality().increase(1);
+        if (item.isBackstagePass()) {
+            updateBackstagePassQuality(item);
         }
     }
 
-    private void updateRegularItemQuality(Item item) {
-        int qualityDecreaseAmount = item.getSellIn().getValue() < 0 ? 2 : 1;
-        item.getQuality().decrease(qualityDecreaseAmount);
+    private void updateBackstagePassQuality(Item item) {
+        if (item.isExpired()) {
+            item.resetQuality();
+            return;
+        }
+
+        if (item.getSellIn().getValue() < 5) {
+            item.increaseQuality(3);
+            return;
+        }
+
+        if (item.getSellIn().getValue() < 10) {
+            item.increaseQuality(2);
+            return;
+        }
+
+        item.increaseQuality(1);
+    }
+
+    private void updateRegularItem(Item item) {
+        int qualityDecreaseAmount = item.isExpired() ? 2 : 1;
+        item.decreaseQuality(qualityDecreaseAmount);
     }
 }
