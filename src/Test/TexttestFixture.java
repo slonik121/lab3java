@@ -5,21 +5,23 @@ import Main.GildedRose;
 import java.util.List;
 import Main.Quality;
 import java.util.ArrayList;
-
+import Main.Collection;
+import java.util.Arrays;
 
 public class TextTestFixture {
     public static void main(String[] args) {
         System.out.println("OMGHAI!");
 
-        Item[] items = createItems();
-        GildedRose app = new GildedRose(items);
+        Item[] itemsArray = createItems();
+        List<Item> itemsList = Arrays.asList(itemsArray); // Конвертація масиву в список
+        GildedRose app = new GildedRose(itemsList);
 
         int days = calculateDays(args);
-        printSimulation(app, items, days);
+        printSimulation(app, itemsArray, days);
     }
 
     private static Item[] createItems() {
-        return new Item[] {
+        return new Item[]{
                 new Item("+5 Dexterity Vest", 10, 20),
                 new Item("Aged Brie", 2, 0),
                 new Item("Elixir of the Mongoose", 5, 7),

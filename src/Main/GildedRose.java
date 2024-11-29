@@ -5,75 +5,65 @@ import Main.Name;
 import Main.Quality;
 import Main.SellIn;
 import java.util.List;
+import Main.Collection;
+
 
 public class GildedRose {
-    private Item[] items;
+    private final Collection items;
 
-    public GildedRose(Item[] items) {
-        this.items = items;
+    public GildedRose(List<Item> itemList) {
+        this.items = new Collection(itemList);
     }
 
-    public Item[] getItems() {
+    public Collection getItems() {
         return items;
     }
 
     public void updateQuality() {
-        for (Item item : items) {
-            processItemUpdate(item);
-        }
+        items.forEachItem(this::processItemUpdate);
     }
 
     private void processItemUpdate(Item item) {
-        if (item.isLegendary()) {
-            return;
-        }
+        if (item.isLegendary()) return;
 
-        decreaseItemSellIn(item);
+        item.decreaseSellIn();
 
         if (item.isSpecial()) {
-            updateSpecialItemQuality(item);
-            return;
+            updateSpecialItem(item);
+        } else {
+            updateRegularItem(item);
         }
-
-        updateRegularItemQuality(item);
     }
 
-    private void decreaseItemSellIn(Item item) {
-        item.decreaseSellIn();
-    }
-
-    private void updateSpecialItemQuality(Item item) {
+    private void updateSpecialItem(Item item) {
         if (item.isAgedBrie()) {
             item.increaseQuality(1);
             return;
         }
 
         if (item.isBackstagePass()) {
-            handleBackstagePassQuality(item);
+            updateBackstagePass(item);
         }
     }
 
-    private void handleBackstagePassQuality(Item item) {
+    private void updateBackstagePass(Item item) {
         if (item.isExpired()) {
             item.resetQuality();
             return;
         }
 
-        if (item.getSellInValue() < 5) {
-            item.increaseQuality(3);
-            return;
-        }
-
-        if (item.getSellInValue() < 10) {
-            item.increaseQuality(2);
-            return;
-        }
-
-        item.increaseQuality(1);
+        int qualityIncrease = calculateBackstageQualityIncrease(item);
+        item.increaseQuality(qualityIncrease);
     }
 
-    private void updateRegularItemQuality(Item item) {
-        int decreaseAmount = item.isExpired() ? 2 : 1;
-        item.decreaseQuality(decreaseAmount);
+    private int calculateBackstageQualityIncrease(Item item) {
+        if (item.getSellInValue() < 5) return 3;
+        if (item.getSellInValue() < 10) return 2;
+        return 1;
+    }
+
+    private void updateRegularItem(Item item) {
+        int qualityDecrease = item.isExpired() ? 2 : 1;
+        item.decreaseQuality(qualityDecrease);
     }
 }

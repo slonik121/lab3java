@@ -14,4 +14,10 @@ public class SellIn {
     public void decrease() {
         value--;
     }
+
+    public boolean isExpired() {
+        return value < 0;
+    }
 }
+
+

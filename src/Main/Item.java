@@ -6,70 +6,70 @@ import Main.Quality;
 import Main.SellIn;
 
 public class Item {
-    private Name name;
-    private SellIn sellIn;
-    private Quality quality;
+    private final String name;
+    private int sellIn;
+    private int quality;
 
     public Item(String name, int sellIn, int quality) {
-        this.name = new Name(name);
-        this.sellIn = new SellIn(sellIn);
-        this.quality = new Quality(quality);
+        this.name = name;
+        this.sellIn = sellIn;
+        this.quality = quality;
     }
 
-    public Name getName() {
-        return name;
-    }
-
-    public SellIn getSellIn() {
+    public int getSellIn() {
         return sellIn;
     }
 
-    public Quality getQuality() {
+    public int getSellInValue() {
+        return sellIn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuality() {
         return quality;
     }
 
+    public void decreaseSellIn() {
+        sellIn--;
+    }
+
+    public void decreaseQuality(int amount) {
+        quality = Math.max(0, quality - amount);
+    }
+
+    public void increaseQuality(int amount) {
+        quality = Math.min(50, quality + amount);
+    }
+
+    public boolean isAgedBrie() {
+        return "Aged Brie".equals(name);
+    }
+
+    public boolean isBackstagePass() {
+        return "Backstage passes to a TAFKAL80ETC concert".equals(name);
+    }
+
     public boolean isLegendary() {
-        return name.getName().equals("Sulfuras, Hand of Ragnaros");
+        return "Sulfuras, Hand of Ragnaros".equals(name);
     }
 
     public boolean isSpecial() {
         return isAgedBrie() || isBackstagePass();
     }
 
-    public boolean isAgedBrie() {
-        return name.getName().equals("Aged Brie");
-    }
-
-    public boolean isBackstagePass() {
-        return name.getName().equals("Backstage passes to a TAFKAL80ETC concert");
+    public void resetQuality() {
+        quality = 0;
     }
 
     public boolean isExpired() {
-        return sellIn.getValue() < 0;
-    }
-
-    public int getSellInValue() {
-        return sellIn.getValue();
-    }
-
-    public void decreaseSellIn() {
-        sellIn.decrease();
-    }
-
-    public void increaseQuality(int amount) {
-        quality.increase(amount);
-    }
-
-    public void decreaseQuality(int amount) {
-        quality.decrease(amount);
-    }
-
-    public void resetQuality() {
-        this.quality = new Quality(0);
+        return sellIn < 0;
     }
 
     @Override
     public String toString() {
-        return name.getName() + ", " + sellIn.getValue() + ", " + quality.getValue();
+        return name + ", " + sellIn + ", " + quality;
     }
 }
