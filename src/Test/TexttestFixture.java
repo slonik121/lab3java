@@ -2,8 +2,12 @@ package Test;
 
 import Main.Item;
 import Main.GildedRose;
+import java.util.List;
+import Main.Quality;
+import java.util.ArrayList;
 
-public class TexttestFixture {
+
+public class TextTestFixture {
     public static void main(String[] args) {
         System.out.println("OMGHAI!");
 
@@ -15,7 +19,7 @@ public class TexttestFixture {
     }
 
     private static Item[] createItems() {
-        return new Item[]{
+        return new Item[] {
                 new Item("+5 Dexterity Vest", 10, 20),
                 new Item("Aged Brie", 2, 0),
                 new Item("Elixir of the Mongoose", 5, 7),
@@ -55,5 +59,3 @@ public class TexttestFixture {
         }
     }
 }
-
-

@@ -4,6 +4,7 @@ import Main.Item;
 import Main.Name;
 import Main.Quality;
 import Main.SellIn;
+import java.util.List;
 
 public class GildedRose {
     private Item[] items;
@@ -18,60 +19,52 @@ public class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            updateItem(item);
+            processItemUpdate(item);
         }
     }
 
-    private void updateItem(Item item) {
-        if (isLegendary(item)) {
+    private void processItemUpdate(Item item) {
+        if (item.isLegendary()) {
             return;
         }
 
-        updateSellIn(item);
+        decreaseItemSellIn(item);
 
-        if (isSpecial(item)) {
-            updateSpecialItem(item);
+        if (item.isSpecial()) {
+            updateSpecialItemQuality(item);
             return;
         }
 
-        updateRegularItem(item);
+        updateRegularItemQuality(item);
     }
 
-    private boolean isLegendary(Item item) {
-        return item.isLegendary();
-    }
-
-    private boolean isSpecial(Item item) {
-        return item.isSpecial();
-    }
-
-    private void updateSellIn(Item item) {
+    private void decreaseItemSellIn(Item item) {
         item.decreaseSellIn();
     }
 
-    private void updateSpecialItem(Item item) {
+    private void updateSpecialItemQuality(Item item) {
         if (item.isAgedBrie()) {
             item.increaseQuality(1);
             return;
         }
 
         if (item.isBackstagePass()) {
-            updateBackstagePassQuality(item);
+            handleBackstagePassQuality(item);
         }
     }
 
-    private void updateBackstagePassQuality(Item item) {
+    private void handleBackstagePassQuality(Item item) {
         if (item.isExpired()) {
             item.resetQuality();
             return;
         }
 
-        if (item.getSellIn().getValue() < 5) {
+        if (item.getSellInValue() < 5) {
             item.increaseQuality(3);
             return;
         }
 
-        if (item.getSellIn().getValue() < 10) {
+        if (item.getSellInValue() < 10) {
             item.increaseQuality(2);
             return;
         }
@@ -79,8 +72,8 @@ public class GildedRose {
         item.increaseQuality(1);
     }
 
-    private void updateRegularItem(Item item) {
-        int qualityDecreaseAmount = item.isExpired() ? 2 : 1;
-        item.decreaseQuality(qualityDecreaseAmount);
+    private void updateRegularItemQuality(Item item) {
+        int decreaseAmount = item.isExpired() ? 2 : 1;
+        item.decreaseQuality(decreaseAmount);
     }
 }

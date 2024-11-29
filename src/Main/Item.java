@@ -48,6 +48,10 @@ public class Item {
         return sellIn.getValue() < 0;
     }
 
+    public int getSellInValue() {
+        return sellIn.getValue();
+    }
+
     public void decreaseSellIn() {
         sellIn.decrease();
     }
