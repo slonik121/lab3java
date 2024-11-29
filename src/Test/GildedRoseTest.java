@@ -16,9 +16,9 @@ class GildedRoseTest {
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
-        int updatedQuality = item.getQuality();
 
-        assertEquals(0, updatedQuality);
+        String expected = "foo, 0, 0";
+        assertEquals(expected, item.toString());
     }
 }
 

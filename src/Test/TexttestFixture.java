@@ -13,7 +13,7 @@ public class TextTestFixture {
         System.out.println("OMGHAI!");
 
         Item[] itemsArray = createItems();
-        List<Item> itemsList = Arrays.asList(itemsArray); // Конвертація масиву в список
+        List<Item> itemsList = Arrays.asList(itemsArray);
         GildedRose app = new GildedRose(itemsList);
 
         int days = calculateDays(args);

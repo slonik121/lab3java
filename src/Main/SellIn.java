@@ -7,10 +7,6 @@ public class SellIn {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public void decrease() {
         value--;
     }
@@ -18,6 +14,9 @@ public class SellIn {
     public boolean isExpired() {
         return value < 0;
     }
-}
 
+    public int getValue() {
+        return value;
+    }
+}
 

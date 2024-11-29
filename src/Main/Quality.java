@@ -9,10 +9,6 @@ public class Quality {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public void increase(int amount) {
         value = Math.min(value + amount, MAX_QUALITY);
     }
@@ -23,5 +19,9 @@ public class Quality {
 
     public void reset() {
         value = MIN_QUALITY;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

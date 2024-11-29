@@ -15,10 +15,6 @@ public class GildedRose {
         this.items = new Collection(itemList);
     }
 
-    public Collection getItems() {
-        return items;
-    }
-
     public void updateQuality() {
         items.forEachItem(this::processItemUpdate);
     }
@@ -57,8 +53,8 @@ public class GildedRose {
     }
 
     private int calculateBackstageQualityIncrease(Item item) {
-        if (item.getSellInValue() < 5) return 3;
-        if (item.getSellInValue() < 10) return 2;
+        if (item.isSellInLessThan(5)) return 3;
+        if (item.isSellInLessThan(10)) return 2;
         return 1;
     }
 
